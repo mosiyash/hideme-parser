@@ -25,7 +25,7 @@ final class HidemeParser
     private $client;
 
     /**
-     * @param string $cachePath
+     * @param string      $cachePath
      * @param null|Client $client
      */
     public function __construct(string $cachePath, Client $client = null)
@@ -34,7 +34,7 @@ final class HidemeParser
         $this->cache = new FilesystemCache('', 0, $this->cachePath);
         $this->client = $client;
 
-        if ($this->client === null) {
+        if (null === $this->client) {
             $this->client = new Client();
         }
     }
