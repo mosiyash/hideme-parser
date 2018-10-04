@@ -46,4 +46,17 @@ class HidemeParserTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(Ip::TYPE_SOCKS4, $ip->getType());
         $this->assertSame(Ip::ANONIMITY_HIGH, $ip->getAnonimity());
     }
+
+    public function testGetPaginationLiks()
+    {
+        $htmlContent = file_get_contents(__DIR__.'/data/proxylist_page0.html');
+        $paginationLinks = $this->hidemeParser->getPaginationLinks($htmlContent);
+
+        $this->assertInternalType('array', $paginationLinks);
+        $this->assertCount(135, $paginationLinks);
+
+        foreach ($paginationLinks as $url) {
+            $this->assertRegExp('/start=\d+/', $url);
+        }
+    }
 }

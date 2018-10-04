@@ -2,10 +2,43 @@
 
 namespace Mosiyash\HidemeParser;
 
+use function str_replace;
 use Symfony\Component\DomCrawler\Crawler;
 
 final class HidemeParser
 {
+    /**
+     * @param string $html
+     *
+     * @return string[]
+     */
+    public function getPaginationLinks(string $html): array
+    {
+        $crawler = new Crawler($html);
+        $perPage = $crawler->filter('table.proxy__t tbody tr')->count();
+        $lastPageNum = (int) $crawler->filter('.proxy__pagination ul li')->last()->text();
+
+        $urlPattern = preg_replace(
+            '/start=\d+/',
+            'start={n}',
+            $crawler->filter('.proxy__pagination ul li a')->attr('href')
+        );
+
+        $data = [];
+
+        for ($i = 1; $i <= $lastPageNum; ++$i) {
+            $url = str_replace(
+                '{n}',
+                $i * $perPage - $perPage,
+                $urlPattern
+            );
+
+            $data[] = $url;
+        }
+
+        return $data;
+    }
+
     /**
      * @param string $html
      *
