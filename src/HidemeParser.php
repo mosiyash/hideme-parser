@@ -133,6 +133,7 @@ final class HidemeParser
     /**
      * @param string[]|null $type
      * @param string[]|null $anonimity
+     *
      * @return Ip[]
      */
     public function all(array $type = null, array $anonimity = null): array
@@ -140,7 +141,7 @@ final class HidemeParser
         /** @var Ip[] $data */
         $data = $this->cache->get('hideme_parser.ip_list', []);
 
-        if ($type === null && $anonimity === null) {
+        if (null === $type && null === $anonimity) {
             return $data;
         }
 
