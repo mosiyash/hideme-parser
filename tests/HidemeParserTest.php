@@ -20,7 +20,7 @@ class HidemeParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \HidemeParser::loadTableData()
+     * @covers HidemeParser::loadTableData()
      */
     public function testLoadTableData()
     {
@@ -54,7 +54,7 @@ class HidemeParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \HidemeParser::getPaginationLinks()
+     * @covers HidemeParser::getPaginationLinks()
      */
     public function testGetPaginationLiks()
     {
@@ -70,9 +70,9 @@ class HidemeParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \HidemeParser::updateCache()
-     * @covers \HidemeParser::count()
-     * @covers \HidemeParser::all()
+     * @covers HidemeParser::updateCache()
+     * @covers HidemeParser::count()
+     * @covers HidemeParser::all()
      */
     public function testCache()
     {
