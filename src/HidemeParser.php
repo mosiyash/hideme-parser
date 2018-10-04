@@ -130,8 +130,31 @@ final class HidemeParser
         return count($this->cache->get('hideme_parser.ip_list', []));
     }
 
-    public function all(): array
+    /**
+     * @param string[]|null $type
+     * @param string[]|null $anonimity
+     * @return Ip[]
+     */
+    public function all(array $type = null, array $anonimity = null): array
     {
-        return $this->cache->get('hideme_parser.ip_list', []);
+        /** @var Ip[] $data */
+        $data = $this->cache->get('hideme_parser.ip_list', []);
+
+        if ($type === null && $anonimity === null) {
+            return $data;
+        }
+
+        foreach ($data as $key => $ip) {
+            if ($type && !in_array($ip->getType(), $type)) {
+                unset($data[$key]);
+            }
+            if ($anonimity && !in_array($ip->getAnonimity(), $anonimity)) {
+                unset($data[$key]);
+            }
+        }
+
+        $data = array_values($data);
+
+        return $data;
     }
 }

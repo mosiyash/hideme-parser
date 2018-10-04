@@ -105,5 +105,16 @@ class HidemeParserTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(1500, $data[1]->getSpeed());
         $this->assertSame('HTTPS', $data[1]->getType());
         $this->assertSame('medium', $data[1]->getAnonimity());
+
+        $data = $this->hidemeParser->all([Ip::TYPE_SOCKS4]);
+        $this->assertCount(1, $data);
+        $this->assertSame('Novosibirsk', $data[0]->getCity());
+
+        $data = $this->hidemeParser->all(null, [Ip::ANONIMITY_MEDIUM]);
+        $this->assertCount(1, $data);
+        $this->assertSame('Tomsk', $data[0]->getCity());
+
+        $data = $this->hidemeParser->all([Ip::TYPE_HTTP], [Ip::ANONIMITY_LOW]);
+        $this->assertCount(0, $data);
     }
 }
