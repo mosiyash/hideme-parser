@@ -19,10 +19,12 @@ checks:
         fix_doc_comments: true
 tools:
     php_cs_fixer: true
-    external_code_coverage:
-        timeout: 600
-        runs: 4
-    php_code_coverage: false
+    external_code_coverage: true
+    php_code_coverage: true
+    php_sim: true
+    php_mess_detector: true
+    php_pdepend: true
+    php_analyzer: true
     php_loc:
         enabled: true
         excluded_dirs: [vendor, test]
