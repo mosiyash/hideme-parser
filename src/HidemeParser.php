@@ -2,11 +2,43 @@
 
 namespace Mosiyash\HidemeParser;
 
+use GuzzleHttp\Client;
 use function str_replace;
+use Symfony\Component\Cache\Simple\FilesystemCache;
 use Symfony\Component\DomCrawler\Crawler;
 
 final class HidemeParser
 {
+    /**
+     * @var FilesystemCache
+     */
+    private $cache;
+
+    /**
+     * @var string
+     */
+    private $cachePath;
+
+    /**
+     * @var Client
+     */
+    private $client;
+
+    /**
+     * @param string $cachePath
+     * @param null|Client $client
+     */
+    public function __construct(string $cachePath, Client $client = null)
+    {
+        $this->cachePath = $cachePath;
+        $this->cache = new FilesystemCache('', 0, $this->cachePath);
+        $this->client = $client;
+
+        if ($this->client === null) {
+            $this->client = new Client();
+        }
+    }
+
     /**
      * @param string $html
      *
@@ -86,5 +118,20 @@ final class HidemeParser
         });
 
         return $data;
+    }
+
+    public function updateCache(array $ipList): bool
+    {
+        return $this->cache->set('hideme_parser.ip_list', $ipList);
+    }
+
+    public function count(): int
+    {
+        return count($this->cache->get('hideme_parser.ip_list', []));
+    }
+
+    public function all(): array
+    {
+        return $this->cache->get('hideme_parser.ip_list', []);
     }
 }
